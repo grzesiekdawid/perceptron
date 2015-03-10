@@ -4,6 +4,7 @@
 #include <vector>
 #include <list>
 #include <sstream>
+#include <cmath>
 
 class Perceptron {
     
@@ -11,7 +12,9 @@ private:
     
     double threshold;
     double learningRate;
-    std::vector<double> weights;
+    int acceptedValue;
+    int rejectedValue;
+    std::vector<long double> weights;
     
     std::list<std::vector<int>> trainingSet;
     std::vector<int> answers;
@@ -28,14 +31,16 @@ private:
     
 public:
     
-    Perceptron(double threshold, double learningRate, std::vector<double> weights);
+    Perceptron(double threshold, double learningRate, std::vector<long double> weights, int acceptedValue, int rejectedValue);
 
     void learn();
 
     void printWeights();
 
-    void loadTrainingSetsFromFile();
+    void loadTrainingSetsFromFile(std::string path);
 
     void displayTrainingSet();
+    
+    bool test(std::string values, int answer);
     
 };

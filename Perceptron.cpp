@@ -2,10 +2,13 @@
 #include "Perceptron.h"
 
 
-Perceptron::Perceptron(double threshold, double learningRate, std::vector<double> weights) {
+Perceptron::Perceptron(double threshold, double learningRate, std::vector<long double> weights,
+                       int acceptedValue, int rejectedValue) {
     this->threshold = threshold;
     this->learningRate = learningRate;
     this->weights = weights;
+    this->acceptedValue = acceptedValue;
+    this->rejectedValue = rejectedValue;
 }
 
 void Perceptron::learn() {
@@ -14,10 +17,10 @@ void Perceptron::learn() {
         error = false;
         int i = 0;
         for (auto values : trainingSet) {
-            if ( (getWeightedSum(values) < threshold) && (answers[i] == 1) ) {
+            if ( (getWeightedSum(values) < threshold) && (answers[i] == acceptedValue) ) {
                 error = true;
                 incWeights(values);
-            } else if ( (getWeightedSum(values) >= threshold) && (answers[i] == 0) ) {
+            } else if ( (getWeightedSum(values) >= threshold) && (answers[i] == rejectedValue) ) {
                 error = true;
                 decWeights(values);
             }
@@ -33,22 +36,21 @@ double Perceptron::getWeightedSum(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         sum += weights[i] * values[i];
     }
+//    std::cout<<sum<<"\n";
     return sum;
 }
 
 void Perceptron::incWeights(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
-        if (values[i] != 0) {
-            weights[i] += weights[i] * learningRate;
-        }
+        weights[i] += learningRate * values[i];
+        weights[i] = floor(weights[i] * 1000 + 0.5) / 1000;
     }
 }
 
 void Perceptron::decWeights(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
-        if (values[i] != 0) {
-            weights[i] -= weights[i] * learningRate;
-        }
+        weights[i] += learningRate * values[i] * -1;
+        weights[i] = floor(weights[i] * 1000 + 0.5) / 1000;
     }
 }
 
@@ -104,8 +106,8 @@ void Perceptron::parseData(std::list<std::vector<int>> &vectors) {
 
 }
 
-void Perceptron::loadTrainingSetsFromFile() {
-    std::ifstream file("/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data.txt");
+void Perceptron::loadTrainingSetsFromFile(std::string path) {
+    std::ifstream file(path);
     std::list<std::vector<int>> vectors;
     
     while( file.good() ) {
@@ -114,6 +116,15 @@ void Perceptron::loadTrainingSetsFromFile() {
         vectors.push_back(stringToVec(value));
     }
     parseData(vectors);
+}
+
+bool Perceptron::test(std::string values, int answer) {
+    bool isClassifiedCorrect = false;
+    double sum = getWeightedSum(stringToVec(values));
+    if ( ((sum < threshold) && (answer == rejectedValue)) || ((sum >= threshold) && (answer == acceptedValue)) ) {
+        isClassifiedCorrect = true;
+    }
+    return isClassifiedCorrect;
 }
 
 
