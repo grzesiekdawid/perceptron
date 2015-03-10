@@ -91,6 +91,15 @@ std::vector<int> Perceptron::stringToVec(std::string string) {
     return vect;
 }
 
+void Perceptron::parseData(std::list<std::vector<int>> &vectors) {
+    for(auto &vec : vectors) {
+        answers.push_back(vec.back());
+        vec.pop_back();
+    }
+    trainingSet = vectors;
+
+}
+
 void Perceptron::loadTrainingSetsFromFile() {
     std::ifstream file("/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data.txt");
     std::list<std::vector<int>> vectors;
@@ -100,8 +109,9 @@ void Perceptron::loadTrainingSetsFromFile() {
         getline ( file, value, '\n' );
         vectors.push_back(stringToVec(value));
     }
-    this->trainingSet = vectors;
+    parseData(vectors);
 }
+
 
 
 

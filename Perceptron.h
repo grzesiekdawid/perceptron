@@ -36,6 +36,8 @@ public:
     
     void printWeights(double weights[], int weightsAmount);
     
+    void parseData(std::list<std::vector<int>> &vectors);
+    
     void loadTrainingSetsFromFile();
     
     void displayTrainingSet();
