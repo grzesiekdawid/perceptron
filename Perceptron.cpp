@@ -2,60 +2,55 @@
 #include "Perceptron.h"
 
 
-Perceptron::Perceptron() {
-//    training_set[0][0] = 1;
-//    training_set[0][1] = 1;
-//    training_set[0][2] = 0;
-//    answers[0] = 1; // correct
-//    
-//    training_set[1][0] = 1;
-//    training_set[1][1] = 0;
-//    training_set[1][2] = 1;
-//    answers[1] = 0; // incorrect
-}
+Perceptron::Perceptron() {}
 
 void Perceptron::learn() {
-//    bool error;
-//    do {
-//        error = false;
-//        for (int i = 0; i < trainingSetSize; i++) {
-//            
-//            if ( (getWeightedSum(training_set[i], weights, trainingSetSize) < threshold) && (answers[i] == 1) ) {
-//                error = true;
-//                incWeights(training_set[i], weights, learning_rate, weightsAmount);
-//            } else if ( (getWeightedSum(training_set[i], weights, weightsAmount) >= threshold) && (answers[i] == 0) ) {
-//                error = true;
-//                decWeights(training_set[i], weights, learning_rate, weightsAmount);
-//            }
-//            printWeights(weights, weightsAmount);
-//        }
-//        
-//    } while (error == true);
+    bool error;
+    do {
+        error = false;
+        int i = 0;
+        for (auto values : trainingSet) {
+            if ( (getWeightedSum(values) < threshold) && (answers[i] == 1) ) {
+                error = true;
+                incWeights(values);
+            } else if ( (getWeightedSum(values) >= threshold) && (answers[i] == 0) ) {
+                error = true;
+                decWeights(values);
+            }
+            printWeights();
+            i++;
+        }
+        
+    } while (error == true);
 }
 
-double Perceptron::getWeightedSum(int values[], double weights[], int weightsAmount) {
+double Perceptron::getWeightedSum(std::vector<int> values) {
     double sum = 0;
-    for (int i = 0; i < weightsAmount; i++) {
+    for (int i = 0; i < weights.size(); i++) {
         sum += weights[i] * values[i];
     }
     return sum;
 }
 
-void Perceptron::incWeights(int values[], double weights[], double learning_rate, int weightsAmount) {
-    for (int i = 0; i < weightsAmount; i++) {
-        weights[i] += weights[i] * learning_rate * values[i];
+void Perceptron::incWeights(std::vector<int> values) {
+    for (int i = 0; i < weights.size(); i++) {
+        if (values[i] != 0) {
+            weights[i] += weights[i] * learning_rate;
+        }
     }
 }
 
-void Perceptron::decWeights(int values[], double weights[], double learning_rate, int weightsAmount) {
-    for (int i = 0; i < weightsAmount; i++) {
-        weights[i] -= weights[i] * learning_rate * values[i];
+void Perceptron::decWeights(std::vector<int> values) {
+    for (int i = 0; i < weights.size(); i++) {
+        if (values[i] != 0) {
+            weights[i] -= weights[i] * learning_rate;
+        }
     }
 }
 
-void Perceptron::printWeights(double weights[], int weightsAmount) {
-    for (int i = 0; i < weightsAmount; i++) {
-        std::cout << weights[i] << ", ";
+void Perceptron::printWeights() {
+    for (auto w : weights) {
+        std::cout << w << ", ";
     }
     std::cout << "\n";
 }
@@ -69,11 +64,16 @@ void displayVector(std::vector<int> &v) {
 
 
 void Perceptron::displayTrainingSet() {
-    for(auto vec : trainingSet) {
-        for(int i = 0; i < vec.size(); i++) {
-            std::cout << vec[i] << " ";
+    for (auto vec : trainingSet) {
+        for (auto value : vec) {
+            std::cout << value << " ";
         }
         std::cout << "\n" << std::endl;
+    }
+    
+    std::cout << "Answers: \n" << std::endl;
+    for (auto answer : answers) {
+        std::cout << answer << std::endl << std::endl;
     }
 }
 

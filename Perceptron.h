@@ -12,13 +12,8 @@ private:
     
     double threshold = 2;
     double learning_rate = 0.1;
-    double weights[3] = {1, 1, 1};
-    int weightsAmount = 3;
+    std::vector<double> weights = {1, 1, 1};
     
-//    int training_set[2][3]; // 0 - dog, 1 - cat
-//    int answers[2];
-    
-//    int trainingSetSize = 2;
     std::list<std::vector<int>> trainingSet;
     std::vector<int> answers;
     
@@ -28,13 +23,13 @@ public:
     
     void learn();
     
-    double getWeightedSum(int values[], double weights[], int weightsAmount);
+    double getWeightedSum(std::vector<int> values);
     
-    void incWeights(int values[], double weights[], double learning_rate, int weightsAmount);
+    void incWeights(std::vector<int> values);
     
-    void decWeights(int values[], double weights[], double learning_rate, int weightsAmount);
+    void decWeights(std::vector<int> values);
     
-    void printWeights(double weights[], int weightsAmount);
+    void printWeights();
     
     void parseData(std::list<std::vector<int>> &vectors);
     

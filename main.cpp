@@ -6,10 +6,12 @@
 int main(int argc, const char * argv[]) {
 
     Perceptron *perc = new Perceptron();
-//    perc->learn();
-    
     perc->loadTrainingSetsFromFile();
     perc->displayTrainingSet();
+
+    perc->learn();
+    
+
 
     return 0;
 }
