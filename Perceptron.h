@@ -1,5 +1,4 @@
 
-//#include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -10,32 +9,33 @@ class Perceptron {
     
 private:
     
-    double threshold = 2;
-    double learning_rate = 0.1;
-    std::vector<double> weights = {1, 1, 1};
+    double threshold;
+    double learningRate;
+    std::vector<double> weights;
     
     std::list<std::vector<int>> trainingSet;
     std::vector<int> answers;
-    
-public:
-    
-    Perceptron();
-    
-    void learn();
     
     double getWeightedSum(std::vector<int> values);
     
     void incWeights(std::vector<int> values);
     
     void decWeights(std::vector<int> values);
-    
-    void printWeights();
-    
+
     void parseData(std::list<std::vector<int>> &vectors);
     
-    void loadTrainingSetsFromFile();
+    std::vector<int> stringToVec(std::string string);
     
+public:
+    
+    Perceptron(double threshold, double learningRate, std::vector<double> weights);
+
+    void learn();
+
+    void printWeights();
+
+    void loadTrainingSetsFromFile();
+
     void displayTrainingSet();
     
-    std::vector<int> stringToVec(std::string string);
 };

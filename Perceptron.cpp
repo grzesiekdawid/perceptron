@@ -2,7 +2,11 @@
 #include "Perceptron.h"
 
 
-Perceptron::Perceptron() {}
+Perceptron::Perceptron(double threshold, double learningRate, std::vector<double> weights) {
+    this->threshold = threshold;
+    this->learningRate = learningRate;
+    this->weights = weights;
+}
 
 void Perceptron::learn() {
     bool error;
@@ -35,7 +39,7 @@ double Perceptron::getWeightedSum(std::vector<int> values) {
 void Perceptron::incWeights(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         if (values[i] != 0) {
-            weights[i] += weights[i] * learning_rate;
+            weights[i] += weights[i] * learningRate;
         }
     }
 }
@@ -43,7 +47,7 @@ void Perceptron::incWeights(std::vector<int> values) {
 void Perceptron::decWeights(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         if (values[i] != 0) {
-            weights[i] -= weights[i] * learning_rate;
+            weights[i] -= weights[i] * learningRate;
         }
     }
 }
