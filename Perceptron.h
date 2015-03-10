@@ -1,9 +1,10 @@
 
 //#include <stdio.h>
 #include <iostream>
-
-//#include "Perceptron.cpp"
-
+#include <fstream>
+#include <vector>
+#include <list>
+#include <sstream>
 
 class Perceptron {
     
@@ -14,10 +15,12 @@ private:
     double weights[3] = {1, 1, 1};
     int weightsAmount = 3;
     
-    int training_set[2][3]; // 0 - dog, 1 - cat
-    int answers[2];
+//    int training_set[2][3]; // 0 - dog, 1 - cat
+//    int answers[2];
     
-    int trainingSetSize = 2;
+//    int trainingSetSize = 2;
+    std::list<std::vector<int>> trainingSet;
+    std::vector<int> answers;
     
 public:
     
@@ -33,6 +36,9 @@ public:
     
     void printWeights(double weights[], int weightsAmount);
     
+    void loadTrainingSetsFromFile();
     
-    //    void loadTrainingSetsFromFile();
+    void displayTrainingSet();
+    
+    std::vector<int> stringToVec(std::string string);
 };
