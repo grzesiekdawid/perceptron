@@ -5,9 +5,7 @@
 
 int main(int argc, const char * argv[]) {
 
-    double threshold = 1;
-    double learningRate = 0.001;
-    std::vector<long double> weights = {0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01};
+//    std::vector<long double> weights = {0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01};
     int acceptedValue = 2;
     int rejectedValue = 4;
     std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/cancer.txt";
@@ -27,7 +25,7 @@ int main(int argc, const char * argv[]) {
 //    int rejectedValue = 0;
 //    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data.txt";
     
-    Perceptron *perc = new Perceptron(threshold, learningRate, weights, acceptedValue, rejectedValue);
+    Perceptron *perc = new Perceptron(acceptedValue, rejectedValue);
 
     perc->loadTrainingSetsFromFile(fileName);
     perc->displayTrainingSet();
@@ -41,4 +39,10 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-
+/*
+ * pytania:
+ * - inicjalizacja:
+ * threshold = ?
+ * weights = ?
+ * learning rate = ?
+ */

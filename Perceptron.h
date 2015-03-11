@@ -25,13 +25,17 @@ private:
     
     void decWeights(std::vector<int> values);
 
-    void parseData(std::list<std::vector<int>> &vectors);
-    
+    void parseData();
+
+    void setAnswers();
+
+    void setWeights();
+
     std::vector<int> stringToVec(std::string string);
     
 public:
     
-    Perceptron(double threshold, double learningRate, std::vector<long double> weights, int acceptedValue, int rejectedValue);
+    Perceptron(int acceptedValue, int rejectedValue);
 
     void learn();
 

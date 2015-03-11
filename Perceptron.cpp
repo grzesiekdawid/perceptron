@@ -2,11 +2,9 @@
 #include "Perceptron.h"
 
 
-Perceptron::Perceptron(double threshold, double learningRate, std::vector<long double> weights,
-                       int acceptedValue, int rejectedValue) {
-    this->threshold = threshold;
-    this->learningRate = learningRate;
-    this->weights = weights;
+Perceptron::Perceptron(int acceptedValue, int rejectedValue) {
+    this->threshold = 1;
+    this->learningRate = 0.001;
     this->acceptedValue = acceptedValue;
     this->rejectedValue = rejectedValue;
 }
@@ -97,13 +95,23 @@ std::vector<int> Perceptron::stringToVec(std::string string) {
     return vect;
 }
 
-void Perceptron::parseData(std::list<std::vector<int>> &vectors) {
-    for(auto &vec : vectors) {
+void Perceptron::setAnswers() {
+    for(auto &vec : trainingSet) {
         answers.push_back(vec.back());
         vec.pop_back();
     }
-    trainingSet = vectors;
+}
 
+void Perceptron::setWeights() {
+    int weightsAmount = (int) trainingSet.front().size();
+    for (int i = 0; i < weightsAmount; i++) {
+        weights.push_back(0.01);
+    }
+}
+
+void Perceptron::parseData() {
+    setAnswers();
+    setWeights();
 }
 
 void Perceptron::loadTrainingSetsFromFile(std::string path) {
@@ -115,7 +123,8 @@ void Perceptron::loadTrainingSetsFromFile(std::string path) {
         getline ( file, value, '\n' );
         vectors.push_back(stringToVec(value));
     }
-    parseData(vectors);
+    trainingSet = vectors;
+    parseData();
 }
 
 bool Perceptron::test(std::string values, int answer) {
