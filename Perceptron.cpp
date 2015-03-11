@@ -3,10 +3,17 @@
 
 
 Perceptron::Perceptron(int acceptedValue, int rejectedValue) {
-    this->threshold = 1;
-    this->learningRate = 0.001;
+    this->threshold = 2;
+    this->learningRate = 0.1;
     this->acceptedValue = acceptedValue;
     this->rejectedValue = rejectedValue;
+    clearResultsFile();
+}
+
+void Perceptron::clearResultsFile() {
+    std::ofstream ofs;
+    ofs.open("/Users/grzegorzdawidko/projects/Perceptron/Perceptron/results.txt", std::ofstream::out | std::ofstream::trunc);
+    ofs.close();
 }
 
 void Perceptron::learn() {
@@ -34,29 +41,37 @@ double Perceptron::getWeightedSum(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         sum += weights[i] * values[i];
     }
-//    std::cout<<sum<<"\n";
     return sum;
 }
 
 void Perceptron::incWeights(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         weights[i] += learningRate * values[i];
-        weights[i] = floor(weights[i] * 1000 + 0.5) / 1000;
+//        weights[i] = floor(weights[i] * 1000 + 0.5) / 1000;
     }
 }
 
 void Perceptron::decWeights(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         weights[i] += learningRate * values[i] * -1;
-        weights[i] = floor(weights[i] * 1000 + 0.5) / 1000;
+//        weights[i] = floor(weights[i] * 1000 + 0.5) / 1000;
     }
 }
 
+void Perceptron::appendToFile(std::string line) {
+    std::ofstream file;
+    file.open ("/Users/grzegorzdawidko/projects/Perceptron/Perceptron/results.txt", std::ofstream::out | std::ofstream::app);
+    file << line << "\n";
+    file.close();
+}
+
 void Perceptron::printWeights() {
+    std::string line;
     for (auto w : weights) {
-        std::cout << w << ", ";
+        line += std::to_string(w) + ", ";
     }
-    std::cout << "\n";
+    std::cout << line << "\n";
+    appendToFile(line);
 }
 
 void displayVector(std::vector<int> &v) {

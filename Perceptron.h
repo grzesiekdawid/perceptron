@@ -31,6 +31,10 @@ private:
 
     void setWeights();
 
+    void appendToFile(std::string line);
+
+    void clearResultsFile();
+
     std::vector<int> stringToVec(std::string string);
     
 public:
