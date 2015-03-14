@@ -47,14 +47,12 @@ double Perceptron::getWeightedSum(std::vector<int> values) {
 void Perceptron::incWeights(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         weights[i] += learningRate * values[i];
-//        weights[i] = floor(weights[i] * 1000 + 0.5) / 1000;
     }
 }
 
 void Perceptron::decWeights(std::vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         weights[i] += learningRate * values[i] * -1;
-//        weights[i] = floor(weights[i] * 1000 + 0.5) / 1000;
     }
 }
 
