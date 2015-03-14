@@ -4,7 +4,7 @@
 
 Perceptron::Perceptron(int acceptedValue, int rejectedValue) {
     this->threshold = 2;
-    this->learningRate = 0.1;
+    this->learningRate = 0.001;
     this->acceptedValue = acceptedValue;
     this->rejectedValue = rejectedValue;
     clearResultsFile();
@@ -120,7 +120,7 @@ void Perceptron::setAnswers() {
 void Perceptron::setWeights() {
     int weightsAmount = (int) trainingSet.front().size();
     for (int i = 0; i < weightsAmount; i++) {
-        weights.push_back(0.01);
+        weights.push_back(0.001);
     }
 }
 
