@@ -1,0 +1,3 @@
+[submodule "fann-code"]
+	path = fann-code
+	url = git://git.code.sf.net/p/fann/code
