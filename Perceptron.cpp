@@ -1,6 +1,5 @@
 
 #include "Perceptron.h"
-using namespace std;
 
 Perceptron::Perceptron(int acceptedValue) {
     this->bias = 2;
@@ -30,7 +29,7 @@ void Perceptron::learn() {
                 decWeights(values);
             }
             printWeights();
-            cout<<"step: "<<++step<<" | sig: "<<sigmoid(values)<<" | ans: "<<answers[i]<<endl<<endl;
+            cout<<"step: "<<++step<<" | sig: "<<sigmoid(values)<<" | ans: "<<answers[i]<<" | accepted v: "<<acceptedValue<<endl<<endl;
             i++;
         }
         
@@ -143,16 +142,13 @@ void Perceptron::loadTrainingSetsFromFile(string path) {
     parseData();
 }
 
-bool Perceptron::test(string values, int answer) {
-    bool isClassifiedCorrect = false;
-    double sigmoidValue = sigmoid(stringToVec(values));
-    if ( ((sigmoidValue <= 0.5) && (answer != acceptedValue)) || ((sigmoidValue > 0.5) && (answer == acceptedValue)) ) {
-        isClassifiedCorrect = true;
-    }
-    return isClassifiedCorrect;
+double Perceptron::calculateSigmoid(string values) {
+    return sigmoid(stringToVec(values));
 }
 
-
+int Perceptron::getAcceptedValue() {
+    return acceptedValue;
+}
 
 
 

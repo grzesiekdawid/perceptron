@@ -7,25 +7,43 @@
 #include <cmath>
 #include <numeric>
 
+using namespace std;
+
 class Perceptron {
-    
+
+public:
+
+    Perceptron(int acceptedValue);
+
+    void learn();
+
+    void printWeights();
+
+    void loadTrainingSetsFromFile(string path);
+
+    void displayTrainingSet();
+
+    double calculateSigmoid(string values);
+
+    int getAcceptedValue();
+
 private:
     
     double bias;
     double learningRate;
     int acceptedValue;
-    std::vector<long double> weights;
+    vector<long double> weights;
     
-    std::list<std::vector<int>> trainingSet;
-    std::vector<int> answers;
+    list<vector<int>> trainingSet;
+    vector<int> answers;
 
-    double sigmoid(std::vector<int> values);
+    double sigmoid(vector<int> values);
 
-    double getWeightedSum(std::vector<int> values);
+    double getWeightedSum(vector<int> values);
     
-    void incWeights(std::vector<int> values);
+    void incWeights(vector<int> values);
     
-    void decWeights(std::vector<int> values);
+    void decWeights(vector<int> values);
 
     void parseData();
 
@@ -33,24 +51,10 @@ private:
 
     void setWeights();
 
-    void appendToFile(std::string line);
+    void appendToFile(string line);
 
     void clearResultsFile();
 
-    std::vector<int> stringToVec(std::string string);
-    
-public:
-    
-    Perceptron(int acceptedValue);
+    vector<int> stringToVec(string string);
 
-    void learn();
-
-    void printWeights();
-
-    void loadTrainingSetsFromFile(std::string path);
-
-    void displayTrainingSet();
-    
-    bool test(std::string values, int answer);
-    
 };
