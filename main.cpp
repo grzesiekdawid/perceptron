@@ -5,10 +5,13 @@
 
 int main(int argc, const char * argv[]) {
 
-    int acceptedValue = 1;//2;
+//    int acceptedValue = 2;
 //    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data/cancer.txt";
-    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data/data.txt";
 //    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data/xyk.txt";
+
+    int acceptedValue = 1;
+    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data/data.txt";
+
 
     Perceptron *perc = new Perceptron(acceptedValue);
 

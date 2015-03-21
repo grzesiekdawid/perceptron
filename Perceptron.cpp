@@ -43,11 +43,7 @@ double Perceptron::sigmoid(vector<int> values) {
 }
 
 double Perceptron::getWeightedSum(vector<int> values) {
-    double sum = 0;
-    for (int i = 0; i < weights.size(); i++) {
-        sum += weights[i] * values[i];
-    }
-    return sum;
+    return inner_product(weights.begin(), weights.end(), values.begin(), 0);
 }
 
 void Perceptron::incWeights(vector<int> values) {
