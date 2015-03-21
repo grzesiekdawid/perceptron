@@ -5,12 +5,12 @@
 
 int main(int argc, const char * argv[]) {
 
-    int rejectedValue = 0;//4;
     int acceptedValue = 1;//2;
-//    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/cancer.txt";
-    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data.txt";
+//    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data/cancer.txt";
+    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data/data.txt";
+//    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data/xyk.txt";
 
-    Perceptron *perc = new Perceptron(acceptedValue, rejectedValue);
+    Perceptron *perc = new Perceptron(acceptedValue);
 
     perc->loadTrainingSetsFromFile(fileName);
     perc->displayTrainingSet();

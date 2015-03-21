@@ -2,11 +2,10 @@
 #include "Perceptron.h"
 using namespace std;
 
-Perceptron::Perceptron(int acceptedValue, int rejectedValue) {
+Perceptron::Perceptron(int acceptedValue) {
     this->bias = 2;
     this->learningRate = 0.1;//0.001;
     this->acceptedValue = acceptedValue;
-    this->rejectedValue = rejectedValue;
     clearResultsFile();
 }
 
@@ -23,22 +22,22 @@ void Perceptron::learn() {
         error = false;
         int i = 0;
         for (auto values : trainingSet) {
-            if ( (sigomoid(values) <= 0.5) && (answers[i] == acceptedValue) ) {
+            if ( (sigmoid(values) <= 0.5) && (answers[i] == acceptedValue) ) {
                 error = true;
                 incWeights(values);
-            } else if ( (sigomoid(values) > 0.5) && (answers[i] == rejectedValue) ) {
+            } else if ( (sigmoid(values) > 0.5) && (answers[i] != acceptedValue) ) {
                 error = true;
                 decWeights(values);
             }
             printWeights();
-            cout<<"step: "<<++step<<" | sig: "<<sigomoid(values)<<" | ans: "<<answers[i]<<endl<<endl;
+            cout<<"step: "<<++step<<" | sig: "<<sigmoid(values)<<" | ans: "<<answers[i]<<endl<<endl;
             i++;
         }
         
     } while (error == true);
 }
 
-double Perceptron::sigomoid(vector<int> values) {
+double Perceptron::sigmoid(vector<int> values) {
     double sum = getWeightedSum(values) + bias;
     return 1/(1 + exp(-sum));
 }
@@ -150,8 +149,8 @@ void Perceptron::loadTrainingSetsFromFile(string path) {
 
 bool Perceptron::test(string values, int answer) {
     bool isClassifiedCorrect = false;
-    double sum = getWeightedSum(stringToVec(values));
-    if ( ((sum < bias) && (answer == rejectedValue)) || ((sum >= bias) && (answer == acceptedValue)) ) {
+    double sigmoidValue = sigmoid(stringToVec(values));
+    if ( ((sigmoidValue <= 0.5) && (answer != acceptedValue)) || ((sigmoidValue > 0.5) && (answer == acceptedValue)) ) {
         isClassifiedCorrect = true;
     }
     return isClassifiedCorrect;

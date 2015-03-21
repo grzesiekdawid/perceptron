@@ -13,13 +13,12 @@ private:
     double bias;
     double learningRate;
     int acceptedValue;
-    int rejectedValue;
     std::vector<long double> weights;
     
     std::list<std::vector<int>> trainingSet;
     std::vector<int> answers;
 
-    double sigomoid(std::vector<int> values);
+    double sigmoid(std::vector<int> values);
 
     double getWeightedSum(std::vector<int> values);
     
@@ -41,7 +40,7 @@ private:
     
 public:
     
-    Perceptron(int acceptedValue, int rejectedValue);
+    Perceptron(int acceptedValue);
 
     void learn();
 
