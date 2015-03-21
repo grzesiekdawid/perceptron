@@ -5,9 +5,10 @@
 
 int main(int argc, const char * argv[]) {
 
-    int acceptedValue = 2;
-    int rejectedValue = 4;
-    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/cancer.txt";
+    int rejectedValue = 0;//4;
+    int acceptedValue = 1;//2;
+//    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/cancer.txt";
+    std::string fileName = "/Users/grzegorzdawidko/projects/Perceptron/Perceptron/data.txt";
 
     Perceptron *perc = new Perceptron(acceptedValue, rejectedValue);
 
@@ -16,8 +17,8 @@ int main(int argc, const char * argv[]) {
 
     perc->learn();
 
-    bool isCorrect = perc->test("6,8,7,8,6,8,8,9,1", 4);
-    std::cout << "is correct: " << isCorrect << std::endl;
+//    bool isCorrect = perc->test("6,8,7,8,6,8,8,9,1", 4);
+//    std::cout << "is correct: " << isCorrect << std::endl;
 
     return 0;
 }

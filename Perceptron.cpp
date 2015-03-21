@@ -1,42 +1,49 @@
 
 #include "Perceptron.h"
-
+using namespace std;
 
 Perceptron::Perceptron(int acceptedValue, int rejectedValue) {
-    this->threshold = 2;
-    this->learningRate = 0.001;
+    this->bias = 2;
+    this->learningRate = 0.1;//0.001;
     this->acceptedValue = acceptedValue;
     this->rejectedValue = rejectedValue;
     clearResultsFile();
 }
 
 void Perceptron::clearResultsFile() {
-    std::ofstream ofs;
-    ofs.open("/Users/grzegorzdawidko/projects/Perceptron/Perceptron/results.txt", std::ofstream::out | std::ofstream::trunc);
+    ofstream ofs;
+    ofs.open("/Users/grzegorzdawidko/projects/Perceptron/Perceptron/results.txt", ofstream::out | ofstream::trunc);
     ofs.close();
 }
 
 void Perceptron::learn() {
     bool error;
+    int step = 0;
     do {
         error = false;
         int i = 0;
         for (auto values : trainingSet) {
-            if ( (getWeightedSum(values) < threshold) && (answers[i] == acceptedValue) ) {
+            if ( (sigomoid(values) <= 0.5) && (answers[i] == acceptedValue) ) {
                 error = true;
                 incWeights(values);
-            } else if ( (getWeightedSum(values) >= threshold) && (answers[i] == rejectedValue) ) {
+            } else if ( (sigomoid(values) > 0.5) && (answers[i] == rejectedValue) ) {
                 error = true;
                 decWeights(values);
             }
             printWeights();
+            cout<<"step: "<<++step<<" | sig: "<<sigomoid(values)<<" | ans: "<<answers[i]<<endl<<endl;
             i++;
         }
         
     } while (error == true);
 }
 
-double Perceptron::getWeightedSum(std::vector<int> values) {
+double Perceptron::sigomoid(vector<int> values) {
+    double sum = getWeightedSum(values) + bias;
+    return 1/(1 + exp(-sum));
+}
+
+double Perceptron::getWeightedSum(vector<int> values) {
     double sum = 0;
     for (int i = 0; i < weights.size(); i++) {
         sum += weights[i] * values[i];
@@ -44,59 +51,59 @@ double Perceptron::getWeightedSum(std::vector<int> values) {
     return sum;
 }
 
-void Perceptron::incWeights(std::vector<int> values) {
+void Perceptron::incWeights(vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         weights[i] += learningRate * values[i];
     }
 }
 
-void Perceptron::decWeights(std::vector<int> values) {
+void Perceptron::decWeights(vector<int> values) {
     for (int i = 0; i < weights.size(); i++) {
         weights[i] += learningRate * values[i] * -1;
     }
 }
 
-void Perceptron::appendToFile(std::string line) {
-    std::ofstream file;
-    file.open ("/Users/grzegorzdawidko/projects/Perceptron/Perceptron/results.txt", std::ofstream::out | std::ofstream::app);
+void Perceptron::appendToFile(string line) {
+    ofstream file;
+    file.open ("/Users/grzegorzdawidko/projects/Perceptron/Perceptron/results.txt", ofstream::out | ofstream::app);
     file << line << "\n";
     file.close();
 }
 
 void Perceptron::printWeights() {
-    std::string line;
+    string line;
     for (auto w : weights) {
-        line += std::to_string(w) + ", ";
+        line += to_string(w) + ", ";
     }
-    std::cout << line << "\n";
+    cout << line << "\n";
     appendToFile(line);
 }
 
-void displayVector(std::vector<int> &v) {
+void displayVector(vector<int> &v) {
     for(int i = 0; i < v.size(); i++) {
-        std::cout << v[i] << " ";
+        cout << v[i] << " ";
     }
-    std::cout << "\n" << std::endl;
+    cout << "\n" << endl;
 }
 
 
 void Perceptron::displayTrainingSet() {
     for (auto vec : trainingSet) {
         for (auto value : vec) {
-            std::cout << value << " ";
+            cout << value << " ";
         }
-        std::cout << "\n" << std::endl;
+        cout << "\n" << endl;
     }
     
-    std::cout << "Answers: \n" << std::endl;
+    cout << "Answers: \n" << endl;
     for (auto answer : answers) {
-        std::cout << answer << std::endl << std::endl;
+        cout << answer << endl << endl;
     }
 }
 
-std::vector<int> Perceptron::stringToVec(std::string string) {
-    std::vector<int> vect;
-    std::stringstream stream(string);
+vector<int> Perceptron::stringToVec(string string) {
+    vector<int> vect;
+    stringstream stream(string);
     
     int i;
     while (stream >> i) {
@@ -118,7 +125,8 @@ void Perceptron::setAnswers() {
 void Perceptron::setWeights() {
     int weightsAmount = (int) trainingSet.front().size();
     for (int i = 0; i < weightsAmount; i++) {
-        weights.push_back(0.001);
+        weights.push_back(0.01);
+//        weights.push_back(0.001);
     }
 }
 
@@ -127,12 +135,12 @@ void Perceptron::parseData() {
     setWeights();
 }
 
-void Perceptron::loadTrainingSetsFromFile(std::string path) {
-    std::ifstream file(path);
-    std::list<std::vector<int>> vectors;
+void Perceptron::loadTrainingSetsFromFile(string path) {
+    ifstream file(path);
+    list<vector<int>> vectors;
     
     while( file.good() ) {
-        std::string value;
+        string value;
         getline ( file, value, '\n' );
         vectors.push_back(stringToVec(value));
     }
@@ -140,10 +148,10 @@ void Perceptron::loadTrainingSetsFromFile(std::string path) {
     parseData();
 }
 
-bool Perceptron::test(std::string values, int answer) {
+bool Perceptron::test(string values, int answer) {
     bool isClassifiedCorrect = false;
     double sum = getWeightedSum(stringToVec(values));
-    if ( ((sum < threshold) && (answer == rejectedValue)) || ((sum >= threshold) && (answer == acceptedValue)) ) {
+    if ( ((sum < bias) && (answer == rejectedValue)) || ((sum >= bias) && (answer == acceptedValue)) ) {
         isClassifiedCorrect = true;
     }
     return isClassifiedCorrect;

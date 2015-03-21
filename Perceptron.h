@@ -10,7 +10,7 @@ class Perceptron {
     
 private:
     
-    double threshold;
+    double bias;
     double learningRate;
     int acceptedValue;
     int rejectedValue;
@@ -18,7 +18,9 @@ private:
     
     std::list<std::vector<int>> trainingSet;
     std::vector<int> answers;
-    
+
+    double sigomoid(std::vector<int> values);
+
     double getWeightedSum(std::vector<int> values);
     
     void incWeights(std::vector<int> values);
