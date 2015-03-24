@@ -2,7 +2,7 @@
 #include "Perceptron.h"
 
 Perceptron::Perceptron(int acceptedValue) {
-    this->bias = 5;
+    this->bias = 2;
     this->learningRate = 0.1;
     this->acceptedValue = acceptedValue;
     clearResultsFile();
@@ -21,10 +21,10 @@ void Perceptron::learn() {
         error = false;
         int i = 0;
         for (auto values : trainingSet) {
-            if ( (sigmoid(values) <= bias) && (answers[i] == acceptedValue) ) {
+            if ( (sigmoid(values) <= 0.5) && (answers[i] == acceptedValue) ) {
                 error = true;
                 incWeights(values);
-            } else if ( (sigmoid(values) > bias) && (answers[i] != acceptedValue) ) {
+            } else if ( (sigmoid(values) > 0.5) && (answers[i] != acceptedValue) ) {
                 error = true;
                 decWeights(values);
             }
@@ -37,13 +37,16 @@ void Perceptron::learn() {
 }
 
 double Perceptron::sigmoid(vector<int> values) {
-//    double sum = getWeightedSum(values) + bias;
-    return getWeightedSum(values);
-//    return 1/(1 + exp(-sum));
+    double sum = getWeightedSum(values) - bias;
+    return 1/(1 + exp(-sum));
 }
 
 double Perceptron::getWeightedSum(vector<int> values) {
-    return inner_product(weights.begin(), weights.end(), values.begin(), 0);
+    double sum = 0;
+    for (int i = 0; i < weights.size(); i++) {
+        sum += weights[i] * values[i];
+    }
+    return sum;
 }
 
 void Perceptron::incWeights(vector<int> values) {
