@@ -11,7 +11,7 @@ TestRunner::TestRunner(vector<int> classes, string dataFileName) {
 
 void TestRunner::run() {
     neurons.front().displayTrainingSet();
-    for (auto perc : neurons) {
+    for (auto &perc : neurons) {
         perc.learn();
     }
 }
