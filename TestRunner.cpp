@@ -10,16 +10,22 @@ TestRunner::TestRunner(vector<int> classes, string dataFileName) {
 }
 
 void TestRunner::run() {
-    neurons.front().displayTrainingSet();
+//    neurons.front().displayTrainingSet();
     for (auto &perc : neurons) {
         perc.learn();
     }
+    for (auto &perc : neurons) {
+        cout<<"Accepted v: "<<perc.getAcceptedValue()<<" | weights: ";
+        perc.printWeights();
+    }
+    cout<<endl;
 }
 
 void TestRunner::test(string values) {
     double sigmoid = -1;
     for (auto perc : neurons) {
         sigmoid = perc.calculateSigmoid(values);
-        cout<<"sigmoid: "<<sigmoid<<" | accepted v: "<<perc.getAcceptedValue()<<endl<<endl;
+        cout<<"Class: k"<<perc.getAcceptedValue()<<" | sigmoid: "<<sigmoid<<endl;
     }
+    cout<<endl;
 }

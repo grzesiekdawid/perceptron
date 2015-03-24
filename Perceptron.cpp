@@ -28,8 +28,8 @@ void Perceptron::learn() {
                 error = true;
                 decWeights(values);
             }
-            printWeights();
-            cout<<"step: "<<++step<<" | sig: "<<sigmoid(values)<<" | ans: "<<answers[i]<<" | accepted v: "<<acceptedValue<<endl<<endl;
+//            printWeights();
+//            cout<<"step: "<<++step<<" | sig: "<<sigmoid(values)<<" | ans: "<<answers[i]<<" | accepted v: "<<acceptedValue<<endl<<endl;
             i++;
         }
         
